@@ -8,9 +8,10 @@
  * Implements hook_uninstall().
  */
 function uc_price_per_role_uninstall() {
-  variable_del('uc_price_per_role_enabled');
-  variable_del('uc_price_per_role_weights');
+  config_clear('uc_price_per_role.settings', 'enabled');
+  config_clear('uc_price_per_role.settings', 'weights');
 }
+
 
 /**
  * Implements hook_schema().
@@ -38,11 +39,12 @@ function uc_price_per_role_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
-      'rid' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
+      'role' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'description' => 'The machine name of the role.',
         'not null' => TRUE,
-        'default' => 0,
+        'default' => '',
       ),
       'price' => array(
         'type' => 'numeric',
@@ -75,11 +77,12 @@ function uc_price_per_role_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
-      'rid' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
+      'role' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'description' => 'The machine name of the role.',
         'not null' => TRUE,
-        'default' => 0,
+        'default' => '',
       ),
       'price' => array(
         'type' => 'numeric',
@@ -95,49 +98,88 @@ function uc_price_per_role_schema() {
   return $schema;
 }
 
-/**
- * Remove orphaned database entries and configuration for deleted roles.
- */
-function uc_price_per_role_update_7100() {
-  $roles = user_roles();
-  $role_ids = array_keys($roles);
-
-  // Remove deleted roles from uc_price_per_role_weights variable.
-  $weights = variable_get('uc_price_per_role_weights', array());
-  $weight_role_ids = array_keys($weights);
-  foreach ($weight_role_ids as $weight_role_id) {
-    if (!array_key_exists($weight_role_id, $roles)) {
-      unset($weights[$weight_role_id]);
-    }
-  }
-  variable_set('uc_price_per_role_weights', $weights);
-
-  // Remove deleted roles from uc_price_per_role_enabled variable.
-  // This should have the same indexes as uc_price_per_role_weights, but
-  // repeat all the steps, just in case something is corrupted.
-  $enabled = variable_get('uc_price_per_role_enabled', array());
-  $enabled_role_ids = array_keys($enabled);
-  foreach ($enabled_role_ids as $enabled_role_id) {
-    if (!array_key_exists($enabled_role_id, $roles)) {
-      unset($enabled[$enabled_role_id]);
-    }
-  }
-  variable_set('uc_price_per_role_enabled', $enabled);
-
-  // Remove data for deleted roles from the {uc_price_per_role_prices} table.
-  db_delete('uc_price_per_role_prices')
-    ->condition('rid', $role_ids, 'NOT IN')
-    ->execute();
-
-  // Remove deleted roles from the {uc_price_per_role_option_prices} table.
-  db_delete('uc_price_per_role_option_prices')
-    ->condition('rid', $role_ids, 'NOT IN')
-    ->execute();
-}
 
 /**
  * Implements hook_update_last_removed().
  */
 function uc_price_per_role_update_last_removed() {
-  return 6000;
+  return 7100;
+}
+
+
+/**
+ * Implements hook_update_N().
+ */
+function uc_price_per_role_update_1000() {
+
+  // Convert numeric rid to string keys (though Backdrop will use the old rid as
+  // the key for all except anonymous and administrator roles).
+  $role_column = array(
+    'type' => 'varchar',
+    'length' => 64,
+    'description' => 'The machine name of the role.',
+    'not null' => TRUE,
+    'default' => '',
+  );
+
+  if (db_field_exists('uc_price_per_role_prices', 'rid')) {
+    db_change_field('uc_price_per_role_prices', 'rid', 'role', $role_column);
+  }
+    db_query('
+      UPDATE {uc_price_per_role_prices}
+      SET role = :role
+      WHERE role = :rid
+      ', array(':rid' => 1, ':role' => BACKDROP_ANONYMOUS_ROLE));
+    db_query('
+      UPDATE {uc_price_per_role_prices}
+      SET role = :role
+      WHERE role = :rid
+      ', array(':rid' => 2, ':role' => BACKDROP_AUTHENTICATED_ROLE));
+
+  if (db_field_exists('uc_price_per_role_option_prices', 'rid')) {
+    db_change_field('uc_price_per_role_option_prices', 'rid', 'role', $role_column);
+  }
+    db_query('
+      UPDATE {uc_price_per_role_option_prices}
+      SET role = :role
+      WHERE role = :rid
+      ', array(':rid' => 1, ':role' => BACKDROP_ANONYMOUS_ROLE));
+    db_query('
+      UPDATE {uc_price_per_role_option_prices}
+      SET role = :role
+      WHERE role = :rid
+      ', array(':rid' => 2, ':role' => BACKDROP_AUTHENTICATED_ROLE));
+
+  $config = config('uc_price_per_role.settings');
+
+  $config->set('enabled', _uc_price_per_role_install_convert(
+    update_variable_get('uc_price_per_role_enabled')));
+  $config->set('weights', _uc_price_per_role_install_convert(
+    update_variable_get('uc_price_per_role_weights')));
+
+  update_variable_del('uc_price_per_role_enabled');
+  update_variable_del('uc_price_per_role_weights');
+}
+
+
+/**
+ * Convert a Drupal variable array keyed on rids to one keyed on roles.
+ */
+function _uc_price_per_role_install_convert($vals) {
+  $new_vals = array();
+  foreach ($vals as $rid => $value) {
+    switch ($rid) {
+      case 1:
+        $new_vals[BACKDROP_ANONYMOUS_ROLE] = $vals[$rid];
+        break;
+
+      case 2:
+        $new_vals[BACKDROP_AUTHENTICATED_ROLE] = $vals[$rid];
+        break;
+
+      default:
+        $new_vals[(string) $rid] = $vals[$rid];
+    }
+  }
+  return $new_vals;
 }

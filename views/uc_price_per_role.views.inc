@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_views_data().
+ * Implements hook_views_data().
  */
 function uc_price_per_role_views_data() {
 
@@ -31,7 +31,7 @@ function uc_price_per_role_views_data() {
     'field' => 'vid',
   );
 
-  $data['uc_price_per_role_prices']['rid'] = array(
+  $data['uc_price_per_role_prices']['role'] = array(
     'title' => t('Role ID'),
     'help' => t('Role ID for a price per role'),
     'field' => array(
@@ -64,13 +64,12 @@ function uc_price_per_role_views_data() {
   $data['uc_products']['particular_role_price'] = array(
     'real field' => 'sell_price',
     'title' => t('Particular role price'),
-    'help' => t('A particular role price as determined by uc_price_per_role, set in handler options.'),
+    'help' => t('A particular role price, set in handler options.'),
     'field' => array(
       'handler' => 'uc_price_per_role_handler_field_role_price',
       'no group by' => TRUE,
-     ),
+    ),
   );
 
   return $data;
 }
-

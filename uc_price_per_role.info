@@ -1,9 +1,9 @@
-name = Price per role
+name = Price per Role
 description = Allow Ubercart products to have role-specific pricing.
-dependencies[] = uc_product
 package = Ubercart - extra
-configure = admin/store/settings/price_per_role
-core = 7.x
+backdrop = 1.x
+type = module
 
-files[] = views/uc_price_per_role.views.inc
-files[] = views/uc_price_per_role_handler_field_role_price.inc
+configure = admin/store/settings/price-per-role
+
+dependencies[] = ubercart
