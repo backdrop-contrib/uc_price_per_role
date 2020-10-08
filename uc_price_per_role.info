@@ -4,3 +4,6 @@ dependencies[] = uc_product
 package = Ubercart - extra
 configure = admin/store/settings/price_per_role
 core = 7.x
+
+files[] = views/uc_price_per_role.views.inc
+files[] = views/uc_price_per_role_handler_field_role_price.inc
