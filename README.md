@@ -14,7 +14,7 @@ Installation
 - Install this module using [the official Backdrop CMS instructions](https://backdropcms.org/guide/modules).
 
 - Visit the configuration page under Administration > Store > Configuration >
-Price per Role (admin/store/settings/price-per-role). Here you can select the
+Price per Role (admin/store/settings/price_per_role). Here you can select the
 roles for individual pricing and set a priority order for the prices. After
 setting this up, the new price entry fields will be available from the product
 edit pages. When viewing or adding a product to the cart, if a role-specific

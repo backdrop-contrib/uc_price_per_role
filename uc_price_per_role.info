@@ -4,6 +4,6 @@ package = Ubercart - extra
 backdrop = 1.x
 type = module
 
-configure = admin/store/settings/price-per-role
+configure = admin/store/settings/price_per_role
 
 dependencies[] = ubercart

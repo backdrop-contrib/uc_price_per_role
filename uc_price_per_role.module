@@ -12,7 +12,7 @@
 function uc_price_per_role_menu() {
   $items = array();
 
-  $items['admin/store/settings/price-per-role'] = array(
+  $items['admin/store/settings/price_per_role'] = array(
     'title' => 'Price per Role',
     'description' => 'Configure price per role settings.',
     'access arguments' => array('administer store'),
