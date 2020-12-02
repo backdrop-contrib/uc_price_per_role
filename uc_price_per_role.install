@@ -108,7 +108,7 @@ function uc_price_per_role_update_last_removed() {
 
 
 /**
- * Implements hook_update_N().
+ * Convert numeric rid to string role and convert variables to config.
  */
 function uc_price_per_role_update_1000() {
 
