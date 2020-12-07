@@ -112,7 +112,7 @@ function uc_price_per_role_theme() {
  */
 function uc_price_per_role_config_info() {
   $prefixes['uc_price_per_role.settings'] = array(
-    'label' => t('Module name settings'),
+    'label' => t('Price per Role settings'),
     'group' => t('Configuration'),
   );
 }
