@@ -115,6 +115,7 @@ function uc_price_per_role_config_info() {
     'label' => t('Price per Role settings'),
     'group' => t('Configuration'),
   );
+  return $prefixes;
 }
 
 
