@@ -1,4 +1,4 @@
-name = Ubercart Price per Role
+name = Ubercart Price Per Role
 description = Allow Ubercart products to have role-specific pricing.
 package = Ubercart - extra
 backdrop = 1.x
