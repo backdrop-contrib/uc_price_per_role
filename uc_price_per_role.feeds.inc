@@ -15,7 +15,6 @@ function uc_price_per_role_feeds_processor_targets_alter(&$targets, $entity_type
       $targets['role_prices_' . $role] = array(
         'name' => t('UC: Price per role for !role', array('!role' => $role_name)),
         'callback' => 'uc_price_per_role_feeds_set_target',
-        'description' => (!empty($tag['description'])) ? $tag['description'] : '',
       );
     }
   }
