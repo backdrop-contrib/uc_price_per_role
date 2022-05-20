@@ -46,7 +46,6 @@ class uc_price_per_role_handler_field_role_price extends uc_product_handler_fiel
     );
   }
 
-
   /**
    * Overrides views_handler_field::pre_render()
    */
