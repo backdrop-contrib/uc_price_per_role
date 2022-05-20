@@ -85,7 +85,7 @@ function uc_price_per_role_menu_alter(&$items) {
  * Implements hook_entity_info_alter().
  */
 function uc_price_per_role_entity_info_alter(&$entity_info) {
-  // Disable node caching so that different users can see different nodes.
+  // Disable node caching so that different roles can see varying node pricing.
   $entity_info['node']['entity cache'] = FALSE;
 }
 
