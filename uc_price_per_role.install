@@ -12,7 +12,6 @@ function uc_price_per_role_uninstall() {
   config_clear('uc_price_per_role.settings', 'weights');
 }
 
-
 /**
  * Implements hook_schema().
  */
@@ -98,14 +97,12 @@ function uc_price_per_role_schema() {
   return $schema;
 }
 
-
 /**
  * Implements hook_update_last_removed().
  */
 function uc_price_per_role_update_last_removed() {
   return 7100;
 }
-
 
 /**
  * Convert numeric rid to string role and convert variables to config.
@@ -161,7 +158,6 @@ function uc_price_per_role_update_1000() {
   update_variable_del('uc_price_per_role_enabled');
   update_variable_del('uc_price_per_role_weights');
 }
-
 
 /**
  * Convert a Drupal variable array keyed on rids to one keyed on roles.

@@ -13,7 +13,7 @@ function uc_price_per_role_menu() {
   $items = array();
 
   $items['admin/store/settings/price_per_role'] = array(
-    'title' => 'Price per Role',
+    'title' => 'Price per role',
     'description' => 'Configure price per role settings.',
     'access arguments' => array('administer store'),
     'page callback' => 'backdrop_get_form',
@@ -24,7 +24,7 @@ function uc_price_per_role_menu() {
 
   if (module_exists('uc_attribute')) {
     $items['node/%node/edit/option-prices'] = array(
-      'title' => 'Option Prices',
+      'title' => 'Option prices',
       'page callback' => 'backdrop_get_form',
       'page arguments' => array('uc_price_per_role_option_prices_form', 1),
       'file' => 'uc_price_per_role.admin.inc',
@@ -38,7 +38,6 @@ function uc_price_per_role_menu() {
   return $items;
 }
 
-
 /**
  * Implements hook_permission().
  */
@@ -50,7 +49,6 @@ function uc_price_per_role_permission() {
   );
 }
 
-
 /**
  * Implements hook_views_api().
  */
@@ -61,7 +59,6 @@ function uc_price_per_role_views_api() {
   );
 }
 
-
 /**
  * Implements hook_admin_paths().
  */
@@ -70,7 +67,6 @@ function uc_price_per_role_admin_paths() {
     'node/*/edit/option-prices' => TRUE,
   );
 }
-
 
 /**
  * Implements hook_menu_alter().
@@ -113,7 +109,6 @@ function uc_price_per_role_theme() {
   );
 }
 
-
 /**
  * Implements hook_config_info().
  */
@@ -124,7 +119,6 @@ function uc_price_per_role_config_info() {
   );
   return $prefixes;
 }
-
 
 /**
  * Implements hook_form_alter() for the product edit form.
@@ -177,9 +171,8 @@ function uc_price_per_role_form_alter(&$form, $form_state, $form_id) {
   elseif ($form_id === 'uc_object_options_form') {
     $link = l('option prices form', "node/{$form['id']['#value']}/edit/option-prices");
     $form['uc_price_per_role_note'] = array(
+      '#type' => 'help',
       '#markup' => t('Note: "Price" column is the default option price. To set option prices per role use the !link.', array('!link' => $link)),
-      '#prefix' => '<p>',
-      '#suffix' => '</p>',
     );
   }
   elseif (strpos($form_id, 'add_to_cart_form')) {
@@ -235,7 +228,6 @@ function uc_price_per_role_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
-
 /**
  * Theme the role prices form area on the product edit form.
  */
@@ -252,7 +244,6 @@ function theme_uc_price_per_role_product_prices($variables) {
   return $output;
 }
 
-
 /**
  * Implements hook_node_validate().
  */
@@ -265,7 +256,6 @@ function uc_price_per_role_node_validate($node, $form, &$form_state) {
     }
   }
 }
-
 
 /**
  * Implements hook_node_load().
@@ -299,7 +289,6 @@ function uc_price_per_role_node_load($nodes, $types) {
   }
 }
 
-
 /**
  * Implements hook_node_insert().
  */
@@ -326,7 +315,6 @@ function uc_price_per_role_node_insert($node) {
     }
   }
 }
-
 
 /**
  * Implements hook_node_update().
@@ -355,7 +343,6 @@ function uc_price_per_role_node_update($node) {
   }
 }
 
-
 /**
  * Implements hook_node_prepare().
  */
@@ -365,7 +352,6 @@ function uc_price_per_role_node_prepare($node) {
     $node->sell_price = $node->roleindependent_sell_price;
   }
 }
-
 
 /**
  * Implements hook_node_delete().
@@ -387,7 +373,6 @@ function uc_price_per_role_node_revision_delete($node) {
     ", array(':vid' => $node->vid));
 }
 
-
 /**
  * Implements hook_uc_product_alter().
  */
@@ -406,7 +391,6 @@ function uc_price_per_role_uc_product_alter(&$node) {
   }
 }
 
-
 /**
  * Load per-role option price data for the supplied node ID.
  */
@@ -422,7 +406,6 @@ function uc_price_per_role_load_option_prices($nid) {
   }
   return $prices;
 }
-
 
 /**
  * Find the price for the current user from the supplied price array.
@@ -456,7 +439,6 @@ function uc_price_per_role_find_price($prices) {
   return FALSE;
 }
 
-
 /**
  * Implements hook_block_info().
  */
@@ -470,7 +452,6 @@ function uc_price_per_role_block_info() {
   return $blocks;
 }
 
-
 /**
  * Implements hook_block_view().
  */
@@ -483,7 +464,6 @@ function uc_price_per_role_block_view($delta = 0) {
     return $block;
   }
 }
-
 
 /**
  * Form to allow authorised users to select which role(s) are used for pricing.
@@ -552,14 +532,12 @@ function uc_price_per_role_switch_form($form, $form_state) {
   return $form;
 }
 
-
 /**
  * Callback for switch form price selection.
  */
 function uc_price_per_role_switch_form_callback($form, &$form_state) {
   return $form['price_selection_fieldset']['price_roles'];
 }
-
 
 /**
  * Form submit handler to save price role selection.
@@ -583,7 +561,6 @@ function uc_price_per_role_switch_form_submit($form_id, &$form_state) {
   }
   cache('cache_entity_node')->flush();
 }
-
 
 /**
  * Implements hook_user_role_delete().
@@ -612,7 +589,6 @@ function uc_price_per_role_user_role_delete($role) {
     ->condition('role', $role->name, '=')
     ->execute();
 }
-
 
 /**
  * Implements hook_autoload_info().
