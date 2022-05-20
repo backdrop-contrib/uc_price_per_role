@@ -4,7 +4,6 @@
  * Price-per-role administrative pages
  */
 
-
 /**
  * Configuration settings form.
  *
@@ -48,7 +47,6 @@ function uc_price_per_role_settings_form() {
   return $form;
 }
 
-
 /**
  * Theme the configuration settings form.
  *
@@ -90,7 +88,6 @@ function theme_uc_price_per_role_settings_form($variables) {
   return $output;
 }
 
-
 /**
  * Submit function for the settings form.
  *
@@ -108,7 +105,6 @@ function uc_price_per_role_settings_form_submit($form, &$form_state) {
   config_set('uc_price_per_role.settings', 'enabled', $enabled);
   config_set('uc_price_per_role.settings', 'weights', $weights);
 }
-
 
 /**
  * Form definition to edit option prices.
@@ -203,7 +199,6 @@ function uc_price_per_role_option_prices_form($form, &$form_state, $product) {
   return $form;
 }
 
-
 /**
  * Display the option form.
  *
@@ -279,7 +274,6 @@ function theme_uc_price_per_role_option_prices_form($variables) {
   return $output;
 }
 
-
 /**
  * Form submit handler to save option prices.
  */
@@ -306,5 +300,4 @@ function uc_price_per_role_option_prices_form_submit($form_id, &$form_state) {
 
   backdrop_set_message(t('The option prices have been saved.'));
 }
-
 
