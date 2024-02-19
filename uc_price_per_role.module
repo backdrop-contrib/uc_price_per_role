@@ -235,9 +235,9 @@ function theme_uc_price_per_role_product_prices($variables) {
   $prices = $variables['prices'];
   $output = '';
   if (!empty($prices)) {
-    $output .= '<table><tr>';
+    $output .= '<table class="uc-price-per-role-prices"><tr>';
     foreach (element_children($prices) as $role) {
-      $output .= '<td>' . backdrop_render($prices[$role]) . '</td>';
+      $output .= '<td class="uc-price-per-role-price-' . backdrop_clean_css_identifier($role) . '">' . backdrop_render($prices[$role]) . '</td>';
     }
     $output .= "</table>\n";
   }
