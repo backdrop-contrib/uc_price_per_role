@@ -351,7 +351,25 @@ function uc_price_per_role_node_update($node) {
  */
 function uc_price_per_role_node_prepare($node) {
   if (isset($node->roleindependent_sell_price)) {
-    // Reload original price for editing.
+    // Reload original price for editing and note in the node that we've done
+    // this.
+    $node->sell_price = $node->roleindependent_sell_price;
+    $node->uc_price_per_role_prepared = TRUE;
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function uc_price_per_role_node_presave($node) {
+  if (isset($node->uc_price_per_role_prepared)) {
+    // We're saving from add/edit form, so use the sell_price as entered on the
+    // form.
+    return;
+  }
+  if (isset($node->roleindependent_sell_price)) {
+    // For all other saves, save the node with the original sell_price, rather
+    // than the role-specific price that was set when we loaded the node.
     $node->sell_price = $node->roleindependent_sell_price;
   }
 }
