@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Views handler: Particular role price field.
