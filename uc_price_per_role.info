@@ -3,7 +3,7 @@ description = Allow Ubercart products to have role-specific pricing.
 package = Ubercart - extra
 backdrop = 1.x
 type = module
+dependencies[] = ubercart
+maintainers[bugfolder] = Robert J. Lang
 
 configure = admin/store/settings/price_per_role
-
-dependencies[] = ubercart
