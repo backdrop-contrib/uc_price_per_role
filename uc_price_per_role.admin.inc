@@ -42,6 +42,7 @@ function uc_price_per_role_settings_form() {
   $form['buttons']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save configuration'),
+    '#attributes' => array('class' => array('button-primary')),
   );
 
   return $form;
@@ -104,6 +105,8 @@ function uc_price_per_role_settings_form_submit($form, &$form_state) {
 
   config_set('uc_price_per_role.settings', 'enabled', $enabled);
   config_set('uc_price_per_role.settings', 'weights', $weights);
+
+  backdrop_set_message(t('The configuration options have been saved.'));
 }
 
 /**
